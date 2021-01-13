@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>
+            firstname    <input v-model='firstname' type="text"  >
+        </p>
+        <p>
+            lastname   <input v-model='lastname' type="text">
+        </p>
+        <p>
+            fullname      <input  v-model='fullname' type="text">
+        </p>
+        <h1>{{fullname}}</h1>
+        <h2>  {{aaa}}</h2>
+        <h2>  {{aaa}}</h2>
+        <h2>  {{aaa}}</h2>
+    </div>
+</body>
+
+<script src="./code/vue.js"></script>
+<script  >
+    var vue = new Vue({
+        el:'#app',
+        data:{
+          firstname:'',
+          lastname:'',
+          fullname:'',
+          fruits:['apple','pear','banana','orange']
+        },
+        // 以下方法
+        methods:{
+            bbb(){
+
+            }
+        },
+        // 这里写计算属性  实际上只调用了一次，非常智能
+        computed:{
+            aaa(){
+                console.log('计算属性执行了')
+                return this.fruits
+            }
+        },
+        watch:{
+            // 这里watch里面firstname监听data里面的   firstname:'',又因为data里面的  firstname:''和上面v-model双向数据绑定了，也就是监听了  firstname    <input v-model='firstname' type="text"  >
+            // val是我们刚刚改的数据 通过数据的拼接最后和双向数据绑定就呈现了lastname的c罗
+            //firstname ： c
+            //fullname ：罗
+            //lastname： c罗
+            firstname:function(val) {
+                this.fullname = val + '' + this.lastname
+            },
+            lastname:function(val){
+                this.fullname = this.firstname + '' + val
+            }
+
+        },
+
+
+        // 以下生命周期
+        beforeCreate(){
+            console.log('我进入了生命周期函数beforeCreate里面')
+            console.log(this.data)
+           
+          
+        },
+        // 这是生命周期函数 created
+        //创建之后  data methods 已经部署完成 
+        created(){
+            // axios    111111
+            console.log('我进入了生命周期created')
+            console.log(this.fruits)
+            // this.d()
+        },
+        //虽然created数据已经架构完成 但是没经过算法和dom元素的比对和插入
+        //中间  有算法 要dom比对和插入   数据渲染之前   基本已经准备好了 就等最后给 页面了
+        // 这一步 是不是可以做 再最后检查下数据是不是对  不对 马上变
+        beforeMount(){
+            console.log('我进入beforeMount了')
+            console.log(this.fruits)
+            // this.d()
+           if(this.msg = 'aaa') {
+               this.msg ='这才是正确的数据'
+           }
+
+        },
+        // 数据  data methods 都拿到了  数据也到了 dom元素 页面上了  
+        mounted(){
+           
+
+
+        },
+        //数据更新前
+        beforeUpdate(){
+            console.log('我进入beforeUpdate')
+        },
+        //数据更新后
+        updated(){
+            console.log('我进入updated')
+        },
+        //页面销毁之前
+        beforeDestroy(){
+            console.log('页面销毁之前')
+        },
+        //页面销毁之后
+        destroyed(){
+
+
+            console.log('页面销毁之后')
+        }
+    })
+
+    console.log(vue)
+</script>
+</html>
